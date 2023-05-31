@@ -5,7 +5,8 @@
     "description": "This is task 1",
     "completed": true,
     "field": "Studies",
-    "urgency": "High"
+    "urgency": "High",
+    "listPlace": 1
   },
   {
     "id":2,
@@ -13,7 +14,8 @@
     "description": "This is task 2",
     "completed": false,
     "field": "Household",
-    "urgency": "High"
+    "urgency": "High",
+    "listPlace": 2
   },
   {
     "id":3,
@@ -21,7 +23,9 @@
     "description": "This is task 3",
     "completed": false,
     "field": "Household",
-    "urgency": "Mid"
+    "urgency": "Mid",
+    "listPlace": 3
+
   }
   ,
   {
@@ -30,6 +34,8 @@
     "description": "This is task 3",
     "completed": false,
     "field": "Fun",
-    "urgency": "Low"
+    "urgency": "Low",
+    "listPlace": 4
+
   }
 ]

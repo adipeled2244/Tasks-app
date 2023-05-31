@@ -1,6 +1,7 @@
 const tasks = require("../Data/tasks.json");
 console.log(tasks);
 const { getMap } = require("../utils/map");
+const  {sortByKey} = require ("../utils/utils");
 
 exports.tasksController = {
   async getTasks(req, res) {
@@ -23,7 +24,7 @@ exports.tasksController = {
         return res.status(200).json({ tasks: filteredTasks });
       }
     }
-
+    sortByKey(tasks, "listPlace")
     res.status(200).json({ tasks }); // return object with tasks array : {"tasks": [task1, task2, ...]}
   },
 
@@ -36,6 +37,7 @@ exports.tasksController = {
     console.log("addTask");
     const task = req.body.task;
     task.id = tasks.length + 1;
+    task.listPlace = tasks.length + 1;
     tasks.push(task);
     getMap(tasks, true);
     res.status(200).json({ task });
