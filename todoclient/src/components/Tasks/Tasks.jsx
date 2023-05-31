@@ -17,10 +17,7 @@ const Tasks = ({
     setAddMode(false);
     onAdd(task);
   };
-  const [isDropDisabled, setIsDropDisabled] = useState(false);
-  const onDragStart = (task) => {
-    setIsDropDisabled(false) // <= your condition goes here
-  } 
+  
   function handleOnDragEnd(result) {
     if (!result.destination) return;
     const items = renderTasks;
