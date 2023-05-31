@@ -82,12 +82,12 @@ function App() {
           onChange={(e) => onSearch(e.target.value)}
         />
         </header>
-        <Tasks
+        {tasks.length >0  && <Tasks
           tasks={tasks}
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
           onAdd={handleAddTask}
-        />
+        />}
        
     </div>
   );
