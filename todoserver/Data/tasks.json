@@ -1,0 +1,35 @@
+[
+  {
+    "id":1,
+    "name": "Homework",
+    "description": "This is task 1",
+    "completed": true,
+    "field": "Studies",
+    "urgency": "High"
+  },
+  {
+    "id":2,
+    "name": "Buy Groceries",
+    "description": "This is task 2",
+    "completed": false,
+    "field": "Household",
+    "urgency": "High"
+  },
+  {
+    "id":3,
+    "name": "Cleaning",
+    "description": "This is task 3",
+    "completed": false,
+    "field": "Household",
+    "urgency": "Mid"
+  }
+  ,
+  {
+    "id":4,
+    "name": "Buy tshirt",
+    "description": "This is task 3",
+    "completed": false,
+    "field": "Fun",
+    "urgency": "Low"
+  }
+]
