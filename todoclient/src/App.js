@@ -10,6 +10,10 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const { speak } = useSpeechSynthesis()
   const [tasksNamesStr, setTasksNamesStr] = useState([]);
+  const [addMode, setAddMode] = useState(false);
+  const handlePressPlus = () => {
+    setAddMode(!addMode);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -25,6 +29,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log(tasks)
     const tasksNames = tasks.map((ticket,index) => `Task ${index+1} ${ticket.name}`);
     const tasksNamesString = tasksNames.join(' ');
 
@@ -69,13 +74,16 @@ function App() {
 
   }
 
+
   return (
     <div className="home">
       
         <h1>My Tasks</h1>
         <header>
+        <button className="add-btn" onClick={handlePressPlus}>
+        {addMode ? "-" : "+"}
+      </button>
         <button className="sound-btn"  onClick={() => speak({ text: tasksNamesStr })}><HearingIcon/></button>
-
         <input
           type="search"
           placeholder="Search..."
@@ -87,7 +95,11 @@ function App() {
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
           onAdd={handleAddTask}
+          addMode={addMode}
+          setAddMode={setAddMode}
         />}
+
+        {tasks.length === 0 && <div className="no-tasks">No tasks to show</div>}
        
     </div>
   );

@@ -8,7 +8,13 @@ import { useForm } from "@mantine/form";
 import { TextInput, Select, Button } from "@mantine/core";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-const TaskCmp = ({ task: renderTask, onDeleteTask, onAdd ,onEditTask,addMode}) => {
+const TaskCmp = ({
+  task: renderTask,
+  onDeleteTask,
+  onAdd,
+  onEditTask,
+  addMode,
+}) => {
   const [completed, setCompleted] = useState(
     renderTask ? renderTask.completed : 0
   );
@@ -32,13 +38,13 @@ const TaskCmp = ({ task: renderTask, onDeleteTask, onAdd ,onEditTask,addMode}) =
 
   const handleCancelEdit = () => {
     setEditMode(false);
-    form.reset();  /// remove changes from the form if user press edit change and cancel 
-    };
+    form.reset(); /// remove changes from the form if user press edit change and cancel
+  };
 
-    const handleSaveEdit = () => {
-        setEditMode(false);
-        onEditTask(renderTask.id, form.values);
-    };
+  const handleSaveEdit = () => {
+    setEditMode(false);
+    onEditTask(renderTask.id, form.values);
+  };
 
   const form = useForm({
     initialValues: {
@@ -50,102 +56,128 @@ const TaskCmp = ({ task: renderTask, onDeleteTask, onAdd ,onEditTask,addMode}) =
     },
   });
 
-  const isNewTask=addMode && !renderTask?.id;
+  const isNewTask = addMode && !renderTask?.id;
 
+  return (
+    <form className="task" onSubmit={form.onSubmit(handleSubmit)}>
+      <div className="task-name task-field ">
+        {!(isNewTask || editMode) && (
+          <p className="content">{renderTask.name}</p>
+        )}
+        {(isNewTask || editMode) && (
+          <TextInput
+            required
+            placeholder="Name"
+            {...form.getInputProps("name")}
+            onChange={(event) =>
+              form.setFieldValue(`name`, event.currentTarget.value)
+            }
+          />
+        )}
+      </div>
+      <div className="task-description task-field">
+        {!(isNewTask || editMode) && (
+          <p className="content">{renderTask.description}</p>
+        )}
+        {(isNewTask || editMode) && (
+          <TextInput
+            required
+            placeholder="Description"
+            {...form.getInputProps("description")}
+            onChange={(event) =>
+              form.setFieldValue(`description`, event.currentTarget.value)
+            }
+          />
+        )}
+      </div>
+      <div className="task-field task-field">
+        {!(isNewTask || editMode) && (
+          <p className="content">{renderTask.field}</p>
+        )}
+        {(isNewTask || editMode) && (
+          <TextInput
+            required
+            placeholder="Field"
+            {...form.getInputProps("field")}
+            onChange={(event) =>
+              form.setFieldValue(`field`, event.currentTarget.value)
+            }
+          />
+        )}
+      </div>
+      <div className="task-urgency task-field">
+        {!(isNewTask || editMode) && (
+          <p className="content">{renderTask.urgency}</p>
+        )}
+        {(isNewTask || editMode) && (
+          <Select
+            placeholder="Urgency"
+            size="sm"
+            required
+            w="100%"
+            value={form.getInputProps("urgency").value}
+            onChange={(value) => form.setFieldValue("urgency", value)}
+            data={[
+              { label: "High", value: "High" },
+              { label: "Mid", value: "Mid" },
+              { label: "Low", value: "Low" },
+            ]}
+          />
+        )}
+      </div>
 
- 
-    return (
-      <form className="task"  onSubmit={form.onSubmit(handleSubmit)}>
-        <div className="task-name task-field ">
-          {!(isNewTask||editMode) && <p className="content">{renderTask.name}</p>}
-          {(isNewTask||editMode) && (
-            <TextInput
-              required
-              placeholder="Name"
-              {...form.getInputProps("name")}
-              onChange={(event) =>
-                form.setFieldValue(`name`, event.currentTarget.value)
-              }
-            />
-          )}
-        </div>
-        <div className="task-description task-field">
-          {!(isNewTask||editMode) && <p className="content">{renderTask.description}</p>}
-          {(isNewTask||editMode) && (
-            <TextInput
-              required
-              placeholder="Description"
-              {...form.getInputProps("description")}
-              onChange={(event) =>
-                form.setFieldValue(`description`, event.currentTarget.value)
-              }
-            />
-          )}
-        </div>
-        <div className="task-field task-field">
-          {!(isNewTask||editMode) && <p className="content">{renderTask.field}</p>}
-          {(isNewTask||editMode) && (
-            <TextInput
-              required
-              placeholder="Field"
-              {...form.getInputProps("field")}
-              onChange={(event) =>
-                form.setFieldValue(`field`, event.currentTarget.value)
-              }
-            />
-          )}
-        </div>
-        <div className="task-urgency task-field">
-          {!(isNewTask||editMode) && <p className="content">{renderTask.urgency}</p>}
-          {(isNewTask||editMode) && (
-            <Select
-              placeholder="Urgency"
-              size="sm"
-              required
-              w="100%"
-              value={form.getInputProps("urgency").value}
-              onChange={(value) => form.setFieldValue("urgency", value)}
-              data={[
-                { label: "High", value: "High" },
-                { label: "Mid", value: "Mid" },
-                { label: "Low", value: "Low" },
-              ]}
-            />
-          )}
-        </div>
-
-        <div className="task-complete">
-         { !(isNewTask||editMode)&& <Checkbox
+      <div className="task-complete">
+        {!(isNewTask || editMode) && (
+          <Checkbox
             color="teal"
             radius="lg"
             size="lg"
             checked={completed}
             onChange={(event) => handleComplete(event.currentTarget.checked)}
-          />}
-        </div>
-        <div className="actions">
-             {!(isNewTask||editMode) &&<button onClick={handleEditPress}><ModeEditIcon /></button>}
-          
-            {editMode && (
-              <div className="edit-cancel-btns">
-                 <button style={{width:"10px", height:"10px"}} onClick={handleSaveEdit}> <CheckIcon style={{fontSize:"20px"}} /></button>
-                 <button style={{width:"10px", height:"10px"}}  onClick={handleCancelEdit}> <ClearIcon style={{fontSize:"20px"}}  /></button>
-              </div>
-            )}
-          
-          {!(isNewTask||editMode) && <button onClick={() => onDeleteTask(renderTask.id)}>
+          />
+        )}
+      </div>
+      <div className="actions">
+        {!(isNewTask || editMode) && (
+          <button className="action-btn" onClick={handleEditPress}>
+            <ModeEditIcon />
+          </button>
+        )}
+
+        {editMode && (
+          <div className="edit-cancel-btns">
+            <button className="action-btn"
+              style={{ width: "10px", height: "10px" }}
+              onClick={handleSaveEdit}
+            >
+              {" "}
+              <CheckIcon style={{ fontSize: "20px" }} />
+            </button>
+
+            <button  className="action-btn"
+              style={{ width: "10px", height: "10px" }}
+              onClick={handleCancelEdit}
+            >
+              {" "}
+              <ClearIcon style={{ fontSize: "20px" }} />
+            </button>
+          </div>
+        )}
+
+        {!(isNewTask || editMode) && (
+          <button className="action-btn" onClick={() => onDeleteTask(renderTask.id)}>
             <DeleteIcon />{" "}
-          </button>}
-        </div>
+          </button>
+        )}
 
-       { isNewTask && <Button type="submit" color="grape" radius="xl">
-          Add task
-        </Button>}
-
-      </form>
-    );
-    //add form
-  
+        {isNewTask && (
+          <Button type="submit" color="grape" radius="xl">
+            Add task
+          </Button>
+        )}
+      </div>
+    </form>
+  );
 };
 
 export default TaskCmp;
