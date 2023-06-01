@@ -1,0 +1,2 @@
+bugs:
+1. in search --> listen : all list !! fix it 

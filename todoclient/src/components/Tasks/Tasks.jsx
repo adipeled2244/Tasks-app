@@ -11,7 +11,8 @@ const Tasks = ({
   addMode,
   setAddMode,
   searchMode,
-  setTasks
+  setTasks,
+  filter
 }) => {
   const handleAddTask = async (task) => {
     setAddMode(false);
@@ -40,7 +41,7 @@ const Tasks = ({
               {renderTasks.length > 0 &&
                 renderTasks.map((task, index) => {
                   return (
-                    <Draggable key={task.id} draggableId={String(task.id)} index={index} isDragDisabled={searchMode}>
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index} isDragDisabled={searchMode || filter!='All'}>
                       {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <TaskCmp

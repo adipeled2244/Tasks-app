@@ -27,21 +27,36 @@ const TaskCmp = ({
   };
 
   const handleEditPress = () => {
-    console.log("handleEdit");
+    console.log("handleEditPress");
     setEditMode(true);
   };
 
   ////////// to add task
-  const handleSubmit = async () => {
+  const handleSubmit =  (e) => {
+    e.preventDefault();
+    console.log("handleSubmit")
     onAdd(form.values);
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
+
+    console.log("handleCancelEdit");
     setEditMode(false);
     form.reset(); /// remove changes from the form if user press edit change and cancel
   };
 
-  const handleSaveEdit = () => {
+  const handleDeletePress = (e) => {
+    e.preventDefault();
+
+    console.log("handleDelete");
+    onDeleteTask(renderTask.id);
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+
+    console.log("handleSaveEdit");
     setEditMode(false);
     onEditTask(renderTask.id, form.values);
   };
@@ -59,7 +74,7 @@ const TaskCmp = ({
   const isNewTask = addMode && !renderTask?.id;
 
   return (
-    <form className="task" onSubmit={form.onSubmit(handleSubmit)}>
+    <form className="task"  >
       <div className="task-name task-field ">
         {!(isNewTask || editMode) && (
           <p className="content">{renderTask.name}</p>
@@ -165,13 +180,13 @@ const TaskCmp = ({
         )}
 
         {!(isNewTask || editMode) && (
-          <button className="action-btn" onClick={() => onDeleteTask(renderTask.id)}>
+          <button  className="action-btn" onClick={handleDeletePress}>
             <DeleteIcon />{" "}
           </button>
         )}
 
         {isNewTask && (
-          <Button type="submit" color="grape" radius="xl">
+          <Button color="grape" radius="xl"  onClick={handleSubmit} >
             Add task
           </Button>
         )}

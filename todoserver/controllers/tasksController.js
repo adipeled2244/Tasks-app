@@ -6,7 +6,7 @@ const  {sortByKey} = require ("../utils/utils");
 exports.tasksController = {
   async getTasks(req, res) {
     const searchText = req.query?.searchText;
-    if (searchText) {
+    if (searchText!='' && searchText!=undefined) {
       //supersearch:buy
       if (searchText.startsWith("supersearch:")) {
         const searchWord = String(searchText).trim().split(":")[1];

@@ -5,14 +5,18 @@ import { useState, useEffect } from "react";
 import { createApiClient } from "./Api/api";
 import { useSpeechSynthesis } from 'react-speech-kit';
 import HearingIcon from '@mui/icons-material/Hearing';
+import { Select } from "@mantine/core";
+
 function App() {
   const api = createApiClient();
   const [tasks, setTasks] = useState([]);
+  const [filteredTasks, setFilteredTasks] = useState([]);
   const { speak } = useSpeechSynthesis()
   const [tasksNamesStr, setTasksNamesStr] = useState([]);
   const [addMode, setAddMode] = useState(false);
   const [searchMode, setSearcMode] = useState(false);
   const [totalTasks, setTotalTasks] = useState(0);
+  const [filter, setFilterValue] = useState('All');
 
   const handlePressPlus = () => {
     setAddMode(!addMode);
@@ -24,23 +28,31 @@ function App() {
       const data = await api.getTasks('');
       setTasks(data.tasks);
       const tasksNames = data.tasks.map((ticket,index) => `Task ${index+1} ${ticket.name}`);
-
       const tasksNamesString = tasksNames.join(' ');
 
       setTasksNamesStr(tasksNamesString);
       setTotalTasks(data.tasks.length);
+      setFilteredTasks(data.tasks);
     };
     fetchTasks();
     
   }, []);
 
+  //ההוספה מחיקה ועריכה הם על טאסקס
+  // אם משנים טאסקס מעדכנים מפולטרים
+  // אם משנים טאסקס מעדכנים מחרוזת הקראה
+  
   useEffect(() => {
-    console.log(tasks)
-    const tasksNames = tasks.map((ticket,index) => `Task ${index+1} ${ticket.name}`);
+    setFilteredTasks(tasks.filter(task=> task.urgency==filter));  
+    filterByUrgency(filter); // מאתחלים את הפילטר עם הפילטר הנבחר
+
+    const tasksNames = filteredTasks.map((ticket,index) => `Task ${index+1} ${ticket.name}`);
     const tasksNamesString = tasksNames.join(' ');
 
     setTasksNamesStr(tasksNamesString);
-  }, [tasks]);
+
+
+  }, [tasks,filter,searchMode]);
 
   const handleAddTask = async (newTask) => {
     
@@ -52,6 +64,7 @@ function App() {
   };
 
   const handleDeleteTask = async (id) => {
+   console.log("delete")
     const data = await api.deleteTask(id);
     const updatedTasks=tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
@@ -80,18 +93,19 @@ function App() {
     timerId= setTimeout(async() => {
       const data= await api.getTasks(searchText);
       setTasks(data.tasks);
-      console.log(data.tasks.length)
-      console.log(totalTasks)
       setSearcMode(!(data.tasks.length == totalTasks))
-      console.log(searchMode)
-      // if(data.tasks.length == totalTasks){
-      //   setSearcMode(false);
-
-      // }else{
-      //   setSearcMode(true);    
-
-      // }
     },300)
+
+  }
+
+  const filterByUrgency = async (urgency) => {
+    setFilterValue(urgency);
+    if(urgency === "All"){
+      setFilteredTasks(tasks);
+      return;
+    }
+
+    setFilteredTasks(tasks.filter((task) => task.urgency === urgency));
 
   }
 
@@ -110,10 +124,24 @@ function App() {
           placeholder="Search..."
           onChange={(e) => onSearch(e.target.value)}
         />
+           <Select
+            placeholder="Urgency"
+            size="sm"
+            required
+            w="15%"
+            onChange={(value) => filterByUrgency(value)}
+            data={[
+              { label: "All", value: "All" },
+              { label: "High", value: "High" },
+              { label: "Mid", value: "Mid" },
+              { label: "Low", value: "Low" },
+            ]}
+          />
         </header>
         {tasks.length >0  && <Tasks
+        filter={filter}
         searchMode={searchMode}
-          tasks={tasks}
+          tasks={filteredTasks}
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
           onAdd={handleAddTask}
@@ -122,7 +150,7 @@ function App() {
           setTasks={setTasks}
         />}
 
-        {tasks.length === 0 && <div className="no-tasks">No tasks to show</div>}
+        {filteredTasks.length === 0 && <div className="no-tasks">No tasks to show</div>}
        
     </div>
   );
