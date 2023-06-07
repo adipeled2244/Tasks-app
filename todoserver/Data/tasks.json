@@ -2,7 +2,7 @@
   {
     "id":1,
     "name": "Homework",
-    "description": "This is task 1",
+    "description": "Math",
     "completed": true,
     "field": "Studies",
     "urgency": "High",
@@ -10,8 +10,8 @@
   },
   {
     "id":2,
-    "name": "Buy Groceries",
-    "description": "This is task 2",
+    "name": "Buy Vegetables",
+    "description": "10 tomatos",
     "completed": false,
     "field": "Household",
     "urgency": "High",
@@ -20,7 +20,7 @@
   {
     "id":3,
     "name": "Cleaning",
-    "description": "This is task 3",
+    "description": "Yuli room",
     "completed": false,
     "field": "Household",
     "urgency": "Mid",
@@ -31,7 +31,7 @@
   {
     "id":4,
     "name": "Buy tshirt",
-    "description": "This is task 3",
+    "description": "for my birthday",
     "completed": false,
     "field": "Fun",
     "urgency": "Low",
