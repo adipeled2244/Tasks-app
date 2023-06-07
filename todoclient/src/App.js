@@ -122,7 +122,7 @@ function App() {
       <h1>My Tasks</h1>
       <header>
         <button className="add-btn" onClick={handlePressPlus}>
-          {isAddMode ? "-" : "+"}
+          <span>{isAddMode ? "-" : "+"}</span>
         </button>
         <button
           className="sound-btn"

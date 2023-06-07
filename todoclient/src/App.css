@@ -56,14 +56,22 @@ header{
 }
 
 .add-btn{
- 
+
   background :rgb(163, 120, 213);
   color: white;
-  font-size: 2rem;
   font-weight: 600;
   cursor: pointer;
   width: 40px;
   height: 40px;
   border-radius:3px;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
+
+.add-btn span{
+  font-size: 20px;
+}
+
