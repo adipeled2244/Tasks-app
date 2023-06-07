@@ -1,25 +1,24 @@
 let map = new Map();
 
 //singelton map
- const getMap = (data,again) => {
-  if (map.size !==0 && again==false) {
-    console.log(1)
+ const getMap = (data,createAgain) => {
+  if (map.size !==0 && createAgain==false) {
+    console.log("send map")
     return map;
   } else {
-    console.log(2)
+    console.log("create map")
+     let internalMap = new Map();
 
-    let internalMap = new Map();
-
-    for (let index = 0; index < data.length; index++) {
-      const task = data[index];
-      const taskIndex = index;
+    for (let i = 0; i < data.length; i++) {
+      const task = data[i];
+      const taskIndex = i;
       const taskName = task.name;
 
       taskName.split(" ").forEach((word) => {
         if (internalMap.has(word.toLowerCase())) {
             internalMap.get(word.toLowerCase()).push(taskIndex);
         } else {
-            internalMap.set(word.toLowerCase(), [taskIndex]);
+            internalMap.set(word.toLowerCase(), [taskIndex]); // create new array with first index
         }
       });
     }

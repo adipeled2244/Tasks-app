@@ -39,6 +39,7 @@ exports.tasksController = {
     task.id = tasks.length + 1;
     task.listPlace = tasks.length + 1;
     tasks.push(task);
+    console.log(tasks)
     getMap(tasks, true);
     res.status(200).json({ task });
   },
