@@ -1,5 +1,4 @@
 const tasks = require("../Data/tasks.json");
-console.log(tasks);
 const { getMap } = require("../utils/map");
 const { sortByKey } = require("../utils/utils");
 
