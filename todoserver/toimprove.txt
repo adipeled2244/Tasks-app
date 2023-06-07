@@ -1,0 +1,4 @@
+- change map after add/delete/update 
+* update-create new
+* add- go over the new task and add it to map
+* delete- go over the delete task and remove it from arrays. 

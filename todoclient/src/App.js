@@ -94,7 +94,7 @@ function App() {
       const data= await api.getTasks(searchText);
       setTasks(data.tasks);
       setSearcMode(!(data.tasks.length == totalTasks))
-    },300)
+    },600)
 
   }
 
