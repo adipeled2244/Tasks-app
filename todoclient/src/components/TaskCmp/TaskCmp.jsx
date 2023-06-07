@@ -8,6 +8,7 @@ import { useForm } from "@mantine/form";
 import { TextInput, Select, Button } from "@mantine/core";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+
 const TaskCmp = ({
   task: renderTask,
   onDeleteTask,
@@ -20,47 +21,6 @@ const TaskCmp = ({
   );
   const [editMode, setEditMode] = useState(false);
 
-  const handleComplete = () => {
-    console.log("handleComplete");
-    onEditTask(renderTask.id, { completed: !completed });
-    setCompleted((prev) => !prev);
-  };
-
-  const handleEditPress = () => {
-    console.log("handleEditPress");
-    setEditMode(true);
-  };
-
-  ////////// to add task
-  const handleSubmit =  (e) => {
-    e.preventDefault();
-    console.log("handleSubmit")
-    onAdd(form.values);
-  };
-
-  const handleCancelEdit = (e) => {
-    e.preventDefault();
-
-    console.log("handleCancelEdit");
-    setEditMode(false);
-    form.reset(); /// remove changes from the form if user press edit change and cancel
-  };
-
-  const handleDeletePress = (e) => {
-    e.preventDefault();
-
-    console.log("handleDelete");
-    onDeleteTask(renderTask.id);
-  };
-
-  const handleSaveEdit = (e) => {
-    e.preventDefault();
-
-    console.log("handleSaveEdit");
-    setEditMode(false);
-    onEditTask(renderTask.id, form.values);
-  };
-
   const form = useForm({
     initialValues: {
       name: renderTask ? renderTask.name : "",
@@ -71,15 +31,56 @@ const TaskCmp = ({
     },
   });
 
+  const handleComplete = () => {
+    console.log("handleComplete");
+    onEditTask(renderTask.id, { completed: !completed }); // update completed in backend
+    setCompleted((prev) => !prev);
+  };
+
+  const handleEditPress = () => {
+    console.log("handleEditPress");
+    setEditMode(true);
+  };
+
+  const handleSubmit = (e) => {
+    console.log("handleSubmit");
+    e.preventDefault();
+    onAdd(form.values);
+  };
+
+  const handleCancelEdit = (e) => {
+    console.log("handleCancelEdit");
+    e.preventDefault();
+    setEditMode(false);
+    form.reset(); /// remove changes from the form if user press edit change and cancel
+  };
+
+  const handleDeletePress = (e) => {
+    console.log("handleDelete");
+    e.preventDefault();
+    onDeleteTask(renderTask.id);
+  };
+
+  const handleSaveEdit = (e) => {
+    console.log("handleSaveEdit");
+    e.preventDefault();
+    setEditMode(false);
+    onEditTask(renderTask.id, form.values);
+  };
+
   const isNewTask = addMode && !renderTask?.id;
+  const showInputsOpen = isNewTask || editMode;
+  const UrgencyDropdownOptions = [
+    { label: "High", value: "High" },
+    { label: "Mid", value: "Mid" },
+    { label: "Low", value: "Low" },
+  ]
 
   return (
-    <form className="task"  >
+    <form className="task">
       <div className="task-name task-field ">
-        {!(isNewTask || editMode) && (
-          <p className="content">{renderTask.name}</p>
-        )}
-        {(isNewTask || editMode) && (
+        {!showInputsOpen && <p className="content">{renderTask.name}</p>}
+        {showInputsOpen && (
           <TextInput
             required
             placeholder="Name"
@@ -90,11 +91,10 @@ const TaskCmp = ({
           />
         )}
       </div>
+
       <div className="task-description task-field">
-        {!(isNewTask || editMode) && (
-          <p className="content">{renderTask.description}</p>
-        )}
-        {(isNewTask || editMode) && (
+        {!showInputsOpen && <p className="content">{renderTask.description}</p>}
+        {showInputsOpen && (
           <TextInput
             required
             placeholder="Description"
@@ -105,11 +105,10 @@ const TaskCmp = ({
           />
         )}
       </div>
+
       <div className="task-field task-field">
-        {!(isNewTask || editMode) && (
-          <p className="content">{renderTask.field}</p>
-        )}
-        {(isNewTask || editMode) && (
+        {!showInputsOpen && <p className="content">{renderTask.field}</p>}
+        {showInputsOpen && (
           <TextInput
             required
             placeholder="Field"
@@ -120,11 +119,10 @@ const TaskCmp = ({
           />
         )}
       </div>
+
       <div className="task-urgency task-field">
-        {!(isNewTask || editMode) && (
-          <p className="content">{renderTask.urgency}</p>
-        )}
-        {(isNewTask || editMode) && (
+        {!showInputsOpen && <p className="content">{renderTask.urgency}</p>}
+        {showInputsOpen && (
           <Select
             placeholder="Urgency"
             size="sm"
@@ -132,17 +130,13 @@ const TaskCmp = ({
             w="100%"
             value={form.getInputProps("urgency").value}
             onChange={(value) => form.setFieldValue("urgency", value)}
-            data={[
-              { label: "High", value: "High" },
-              { label: "Mid", value: "Mid" },
-              { label: "Low", value: "Low" },
-            ]}
+            data={UrgencyDropdownOptions}
           />
         )}
       </div>
 
       <div className="task-complete">
-        {!(isNewTask || editMode) && (
+        {!showInputsOpen && (
           <Checkbox
             color="teal"
             radius="lg"
@@ -152,8 +146,9 @@ const TaskCmp = ({
           />
         )}
       </div>
+
       <div className="actions">
-        {!(isNewTask || editMode) && (
+        {!showInputsOpen && (
           <button className="action-btn" onClick={handleEditPress}>
             <ModeEditIcon />
           </button>
@@ -161,32 +156,30 @@ const TaskCmp = ({
 
         {editMode && (
           <div className="edit-cancel-btns">
-            <button className="action-btn"
-              style={{ width: "10px", height: "10px" }}
+            <button
+              className="action-btn save-edit-btn"
               onClick={handleSaveEdit}
             >
-              {" "}
               <CheckIcon style={{ fontSize: "20px" }} />
             </button>
 
-            <button  className="action-btn"
-              style={{ width: "10px", height: "10px" }}
+            <button
+              className="action-btn  cancel-edit-btn "
               onClick={handleCancelEdit}
             >
-              {" "}
               <ClearIcon style={{ fontSize: "20px" }} />
             </button>
           </div>
         )}
 
-        {!(isNewTask || editMode) && (
-          <button  className="action-btn" onClick={handleDeletePress}>
-            <DeleteIcon />{" "}
+        {!showInputsOpen && (
+          <button className="action-btn" onClick={handleDeletePress}>
+            <DeleteIcon />
           </button>
         )}
 
         {isNewTask && (
-          <Button color="grape" radius="xl"  onClick={handleSubmit} >
+          <Button color="grape" radius="xl" onClick={handleSubmit}>
             Add task
           </Button>
         )}

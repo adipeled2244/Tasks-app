@@ -13,15 +13,12 @@ function App() {
   const [filteredTasks, setFilteredTasks] = useState([]);
   const { speak } = useSpeechSynthesis()
   const [tasksNamesStr, setTasksNamesStr] = useState([]);
+
   const [addMode, setAddMode] = useState(false);
   const [searchMode, setSearcMode] = useState(false);
-  const [totalTasks, setTotalTasks] = useState(0);
+
+  const [totalTasksNumber, setTotalTasksNumber] = useState(0);
   const [filter, setFilterValue] = useState('All');
-
-  const handlePressPlus = () => {
-    setAddMode(!addMode);
-  };
-
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -31,12 +28,17 @@ function App() {
       const tasksNamesString = tasksNames.join(' ');
 
       setTasksNamesStr(tasksNamesString);
-      setTotalTasks(data.tasks.length);
+      setTotalTasksNumber(data.tasks.length);
       setFilteredTasks(data.tasks);
     };
     fetchTasks();
     
   }, []);
+
+
+  const handlePressPlus = () => {
+    setAddMode(!addMode);
+  };
 
   //ההוספה מחיקה ועריכה הם על טאסקס
   // אם משנים טאסקס מעדכנים מפולטרים
@@ -59,7 +61,7 @@ function App() {
     const task={"task":newTask}
     const data = await api.addTask(task);
     setTasks([...tasks, data.task]);
-    setTotalTasks((prev) => prev + 1);
+    setTotalTasksNumber((prev) => prev + 1);
 
   };
 
@@ -68,7 +70,7 @@ function App() {
     const data = await api.deleteTask(id);
     const updatedTasks=tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
-    setTotalTasks((prev) => prev - 1);
+    setTotalTasksNumber((prev) => prev - 1);
 
   };
 
@@ -93,7 +95,7 @@ function App() {
     timerId= setTimeout(async() => {
       const data= await api.getTasks(searchText);
       setTasks(data.tasks);
-      setSearcMode(!(data.tasks.length == totalTasks))
+      setSearcMode(!(data.tasks.length == totalTasksNumber))
     },600)
 
   }
