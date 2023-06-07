@@ -31,6 +31,12 @@ const TaskCmp = ({
     },
   });
 
+  const UrgencyDropdownEditOptions = [
+    { label: "High", value: "High" },
+    { label: "Mid", value: "Mid" },
+    { label: "Low", value: "Low" },
+  ]
+
   const handleComplete = () => {
     console.log("handleComplete");
     onEditTask(renderTask.id, { completed: !completed }); // update completed in backend
@@ -70,11 +76,7 @@ const TaskCmp = ({
 
   const isNewTask = addMode && !renderTask?.id;
   const showInputsOpen = isNewTask || editMode;
-  const UrgencyDropdownOptions = [
-    { label: "High", value: "High" },
-    { label: "Mid", value: "Mid" },
-    { label: "Low", value: "Low" },
-  ]
+
 
   return (
     <form className="task">
@@ -130,7 +132,7 @@ const TaskCmp = ({
             w="100%"
             value={form.getInputProps("urgency").value}
             onChange={(value) => form.setFieldValue("urgency", value)}
-            data={UrgencyDropdownOptions}
+            data={UrgencyDropdownEditOptions}
           />
         )}
       </div>

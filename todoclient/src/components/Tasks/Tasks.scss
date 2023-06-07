@@ -1,23 +1,15 @@
+.tasks-container {
+  max-width: 1000px;
+  background-color: rgb(157, 207, 202);
+  box-shadow: rgba(72, 72, 84, 0.2) 0px 7px 29px 0px;
+  padding: 40px;
 
-
-.tasks{
-    max-width:1000px;
-    // min-width:700px;
-    background-color: rgb(157, 207, 202);
-       box-shadow: rgba(72, 72, 84, 0.2) 0px 7px 29px 0px;
-       padding: 40px;
-
-       .tasks-list{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap:8px;
-        
-    }
+  .tasks-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     
-  
-    
-   }
-
-
+  }
+}

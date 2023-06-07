@@ -14,12 +14,14 @@ const Tasks = ({
   setTasks,
   filter
 }) => {
+
+
   const handleAddTask = async (task) => {
     setAddMode(false);
     onAdd(task);
   };
   
-  function handleOnDragEnd(result) {
+  function handleOnDragEnd(result) { // edit place of task after drag
     if (!result.destination) return;
     const items = renderTasks;
     const [reorderedItem] = items.splice(result.source.index, 1); /// from index , how many = remove 1
@@ -28,12 +30,11 @@ const Tasks = ({
       onEditTask(task.id,{listPlace:index+1})
       return task;
     })
-    console.log(items)
     setTasks(items);
   }
 
   return (
-    <div className="tasks">
+    <div className="tasks-container">
       <div className="tasks-list">
         <DragDropContext onDragEnd={handleOnDragEnd}  >
           <Droppable droppableId="droptasks" >
