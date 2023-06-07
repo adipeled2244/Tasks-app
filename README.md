@@ -6,4 +6,6 @@
 - Maintain core
 - Drag and Drop
 
-![image](https://github.com/adipeled2244/Tasks-app/assets/66279141/83796adb-86bf-4be6-aaf4-a2d44d0605f4)
+![image](https://github.com/adipeled2244/Tasks-app/assets/66279141/0914d2e4-ef1c-46f3-876f-78d824a15efe)
+
+![image](https://github.com/adipeled2244/Tasks-app/assets/66279141/26d226a2-6e60-4882-9651-c219b0bf0b01)
